@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script th:src="@{/static/js/test.js}"></script>
+</head>
+<body>
+    <div>
+        用户名：<input th:id="${user.name}" th:name="${user.name}" th:value="${user.name}" />
+        <br/>
+        用户年龄:<input th:value="${user.age}"/>
+        <br/>
+        用户生日：<input th:value="${user.birthday}"/>
+        用户生日：<input th:value="${#dates.format(user.birthday,'yyyy-MM-dd')}"/>
+    </div>
+    <div th:object="${user}">
+        用户名：<input th:id="${user.name}" th:name="${user.name}" th:value="${user.name}" />
+        <br/>
+        用户年龄:<input th:value="${user.age}"/>
+        <br/>
+        用户生日：<input th:value="${user.birthday}"/>
+        用户生日：<input th:value="${#dates.format(user.birthday,'yyyy-MM-dd')}"/>
+    </div>
+    <div>
+        <span th:text="${user.desc}"></span>
+        <br/>
+        <span th:utext="${user.desc}"></span>
+    </div>
+    <div>
+        URI:<a th:href="@{http://www.baidu.com}">百度</a>
+    </div>
+    <div>
+        <form th:action="@{/th/postform}" th:object="${user}" th:method="post">
+            <input type="text" th:field="*{name}"/>
+            <input type="submit"/>
+        </form>
+    </div>
+    <div>
+        <div th:if="${user.age} == 18">刚成年</div>
+        <div th:if="${user.age} gt 18">老了</div>
+        <div th:if="${user.age} lt 18">还小</div>
+        <div th:if="${user.age} ge 18">大于等于</div>
+        <div th:if="${user.age} le 18">小于等于</div>
+    </div>
+    <select>
+        <option>选择框</option>
+        <option th:selected="${user.name} eq 'jack'">Jack</option>
+        <option th:selected="${user.name} eq 'rose'">Rose</option>
+    </select>
+    <table>
+        <tr>
+            <th>姓名</th>
+            <th>年龄</th>
+            <th>生日</th>
+            <th>备注</th>
+        </tr>
+        <tr th:each="person:${userList}">
+            <td th:text="${person.name}"></td>
+            <td th:text="${person.age}"></td>
+            <td th:text="${person.birthday}"></td>
+            <td th:text="${person.desc}"></td>
+        </tr>
+    </table>
+    <div th:switch="${user.name}">
+        <p th:case="jack">超级管理员</p>
+        <p th:case="rose">普通管理员</p>
+        <p th:case="#{role.manager}">管理员</p>
+    </div>
+</body>
+</html>
